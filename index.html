@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LingoLoco — learn a language, accidentally become charming</title>
+  <meta name="description" content="Tiny, ridiculous, embarrassingly effective language lessons. Pick a language, keep a streak, and let Pip the bird judge you gently." />
+  <meta name="theme-color" content="#fffbf0" />
+  <meta property="og:title" content="LingoLoco — learn a language, accidentally become charming" />
+  <meta property="og:description" content="Tiny, ridiculous, embarrassingly effective language lessons. Five minutes a day and you're basically fluent (emotionally)." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='35' r='24' fill='%2358cc02' stroke='%2346a302' stroke-width='3'/%3E%3Cellipse cx='23' cy='32' rx='6' ry='7' fill='white'/%3E%3Cellipse cx='41' cy='32' rx='6' ry='7' fill='white'/%3E%3Ccircle cx='24' cy='33' r='2.6' fill='%233c3c3c'/%3E%3Ccircle cx='42' cy='33' r='2.6' fill='%233c3c3c'/%3E%3Cpath d='M32 39 L39 45 L32 51 L25 45Z' fill='%23ff9600'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="relative min-h-screen overflow-x-hidden">
+  <canvas id="confettiCanvas" class="pointer-events-none fixed inset-0 z-[110] h-full w-full" aria-hidden="true"></canvas>
+
+  <!-- ================= HEADER ================= -->
+  <header id="siteHeader" class="site-header">
+    <div class="container-page">
+      <nav class="nav-shell" aria-label="Main navigation">
+        <a href="#top" class="group flex items-center gap-2" aria-label="LingoLoco home">
+          <span class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" class="h-8 w-8">
+              <circle cx="32" cy="35" r="24" fill="#58cc02" stroke="#46a302" stroke-width="3" />
+              <path d="M29 12 C26 5 32 4 33 10 C35 5 41 7 37 13Z" fill="#46a302" />
+              <ellipse cx="23" cy="32" rx="6.5" ry="7.5" fill="#fff" stroke="#3c3c3c" stroke-width="2" />
+              <ellipse cx="41" cy="32" rx="6.5" ry="7.5" fill="#fff" stroke="#3c3c3c" stroke-width="2" />
+              <circle cx="24" cy="33" r="2.8" fill="#3c3c3c" />
+              <circle cx="42" cy="33" r="2.8" fill="#3c3c3c" />
+              <circle cx="25" cy="31.5" r="1" fill="#fff" />
+              <circle cx="43" cy="31.5" r="1" fill="#fff" />
+              <ellipse cx="18" cy="41" rx="3.5" ry="2" fill="#ffa6b5" opacity=".8" />
+              <ellipse cx="46" cy="41" rx="3.5" ry="2" fill="#ffa6b5" opacity=".8" />
+              <path d="M32 39 L38.5 44.5 L32 50 L25.5 44.5Z" fill="#ff9600" stroke="#e07f00" stroke-width="2" />
+            </svg>
+          </span>
+          <span class="font-display text-[1.45rem] leading-none font-extrabold tracking-tight">lingo<span class="text-grass">loco</span></span>
+          <span class="hidden rounded-full border border-ink/10 bg-white px-2 py-0.5 font-display text-[9px] font-extrabold tracking-widest text-muted uppercase xl:inline-block">beta-ish</span>
+        </a>
+
+        <div class="hidden items-center gap-0.5 md:flex">
+          <a href="#languages" class="nav-link">Languages</a>
+          <a href="#path" class="nav-link">Learn</a>
+          <a href="#leagues" class="nav-link">Leagues</a>
+          <a href="#faq" class="nav-link">FAQ</a>
+        </div>
+
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <span class="hidden items-center gap-1 rounded-xl border-2 border-sky/30 bg-sky-soft px-2.5 py-2 font-display text-sm font-extrabold text-sky-dark lg:flex" title="Total XP">
+            ⚡ <span id="navXp">340</span> XP
+          </span>
+          <button type="button" id="streakBtn" class="streak-pill" aria-label="View your streak">
+            <span class="text-base" aria-hidden="true">🔥</span>
+            <span id="streakCount">12</span>
+          </button>
+          <button type="button" class="sound-toggle icon-btn hidden sm:grid" aria-label="Toggle sound" aria-pressed="false">
+            <span class="sound-icon" aria-hidden="true">🔊</span>
+          </button>
+          <a href="#path" class="btn btn-green btn-sm hidden sm:inline-flex" data-confetti>Start free</a>
+          <button type="button" id="menuBtn" class="icon-btn md:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+            <span id="menuIcon" aria-hidden="true">☰</span>
+          </button>
+        </div>
+      </nav>
+
+      <div id="mobileMenu" class="mobile-menu md:hidden" inert>
+        <div class="grid gap-1 p-3">
+          <a href="#languages" class="mobile-link"><span>🌍 Languages</span><span aria-hidden="true">→</span></a>
+          <a href="#path" class="mobile-link"><span>🛣️ Learning path</span><span aria-hidden="true">→</span></a>
+          <a href="#leagues" class="mobile-link"><span>🏆 Leagues</span><span aria-hidden="true">→</span></a>
+          <a href="#faq" class="mobile-link"><span>❓ FAQ</span><span aria-hidden="true">→</span></a>
+          <a href="#path" class="btn btn-green mt-2 w-full" data-confetti>Start free 🚀</a>
+          <div class="mt-2 flex items-center justify-between rounded-2xl bg-bubble/70 px-3 py-2">
+            <span class="font-display text-sm font-extrabold text-muted">Sound effects</span>
+            <button type="button" class="sound-toggle inline-flex items-center gap-2 rounded-xl border-2 border-ink/10 bg-white px-3 py-1.5 font-display text-sm font-extrabold" aria-label="Toggle sound" aria-pressed="false">
+              <span class="sound-icon" aria-hidden="true">🔊</span>
+              <span class="sound-label">On</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ================= HERO ================= -->
+    <section class="relative overflow-hidden pt-28 pb-10 sm:pt-36 lg:pb-16">
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <svg class="absolute top-24 left-[4%] h-7 w-7 animate-sparkle text-mango" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l2.6 6.4L21 11l-6.4 2.6L12 20l-2.6-6.4L3 11l6.4-2.6L12 2z" />
+        </svg>
+        <svg class="absolute top-[40%] right-[3%] h-10 w-10 animate-sparkle text-grape/60" style="animation-delay: 1.2s" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l2.6 6.4L21 11l-6.4 2.6L12 20l-2.6-6.4L3 11l6.4-2.6L12 2z" />
+        </svg>
+        <svg class="absolute bottom-14 left-[8%] h-14 w-14 animate-sparkle text-sky/30" style="animation-delay: .6s" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <path d="M6 42 C18 26 26 50 38 34 C46 23 50 30 55 24" />
+        </svg>
+        <div class="absolute -left-16 top-1/3 h-48 w-48 rounded-full bg-grass/10 blur-2xl"></div>
+        <div class="absolute -right-10 bottom-0 h-56 w-56 rounded-full bg-mango/15 blur-2xl"></div>
+      </div>
+
+      <div class="container-page relative grid items-center gap-8 lg:grid-cols-[1.04fr_0.96fr] lg:gap-4">
+        <div class="relative z-10 text-center lg:text-left">
+          <div class="reveal inline-flex items-center gap-2 rounded-full border-2 border-grass/20 bg-grass-soft px-4 py-1.5 font-display text-xs font-extrabold text-grass-dark sm:text-sm">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-grass opacity-70"></span>
+              <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-grass"></span>
+            </span>
+            42 languages. Zero boring lessons.
+          </div>
+
+          <h1 class="reveal mt-5 font-display text-[2.7rem] leading-[0.92] font-extrabold tracking-tight text-balance max-[359px]:text-[2.3rem] sm:text-6xl lg:text-[3.9rem] xl:text-[4.2rem] 2xl:text-[4.7rem]" style="--reveal-delay: 80ms">
+            Learn a language.<br />
+            Accidentally become
+            <span class="relative inline-block whitespace-nowrap text-grass">
+              charming
+              <svg class="absolute -bottom-1 left-0 h-3 w-full text-mango sm:-bottom-2 sm:h-4" viewBox="0 0 200 14" preserveAspectRatio="none" fill="none" aria-hidden="true">
+                <path d="M4 10 C42 3 82 3 118 7 C150 11 174 7 196 4" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+              </svg>
+            </span>
+          </h1>
+
+          <p class="reveal mx-auto mt-6 max-w-lg text-base leading-relaxed font-semibold text-muted text-pretty sm:text-lg lg:mx-0" style="--reveal-delay: 160ms">
+            Tiny, ridiculous, embarrassingly effective lessons. <span class="font-extrabold text-ink">Five minutes a day</span> and you'll be ordering pastries with confidence (and questionable grammar).
+          </p>
+
+          <div class="reveal mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center lg:justify-start" style="--reveal-delay: 240ms">
+            <a href="#path" class="btn btn-green group text-lg" data-confetti>
+              Start for free
+              <span class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
+            </a>
+            <a href="#languages" class="btn btn-white text-lg">
+              Pick your chaos
+              <span aria-hidden="true">🌍</span>
+            </a>
+          </div>
+
+          <div class="reveal mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start" style="--reveal-delay: 320ms">
+            <div class="flex -space-x-2.5" aria-hidden="true">
+              <span class="grid h-9 w-9 place-items-center rounded-full border-2 border-cream bg-mango-soft text-lg">🧑‍🎤</span>
+              <span class="grid h-9 w-9 place-items-center rounded-full border-2 border-cream bg-sky-soft text-lg">🐻</span>
+              <span class="grid h-9 w-9 place-items-center rounded-full border-2 border-cream bg-berry-soft text-lg">🦊</span>
+              <span class="grid h-9 w-9 place-items-center rounded-full border-2 border-cream bg-grass-soft text-lg">👩‍🚀</span>
+              <span class="grid h-9 w-9 place-items-center rounded-full border-2 border-cream bg-grape-soft font-display text-[10px] font-extrabold text-grape-dark">+62M</span>
+            </div>
+            <div class="text-center sm:text-left">
+              <div class="text-sm leading-none tracking-wider text-mango-dark" aria-hidden="true">★★★★★</div>
+              <p class="mt-1 text-xs font-extrabold text-muted"><span class="text-ink">4.9</span> · loved by 62 million chronic yappers</p>
+            </div>
+          </div>
+
+          <p class="reveal mt-4 text-[11px] font-bold text-muted" style="--reveal-delay: 380ms">No credit card. No ads. One mildly judgmental bird.</p>
+        </div>
+
+        <!-- Hero mascot scene -->
+        <div class="reveal relative mx-auto w-full max-w-[430px] px-2 pt-8 pb-12 sm:px-8 lg:max-w-[500px] lg:pt-4" style="--reveal-delay: 140ms">
+          <div class="relative mx-auto aspect-square w-full max-w-[390px]">
+            <div class="blob-bg" aria-hidden="true"></div>
+
+            <svg class="absolute top-[8%] left-[4%] h-6 w-6 animate-sparkle text-mango" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0l2.4 9.6L24 12l-9.6 2.4L12 24l-2.4-9.6L0 12l9.6-2.4L12 0z" />
+            </svg>
+            <svg class="absolute right-[2%] bottom-[22%] h-8 w-8 animate-sparkle text-sky/60" style="animation-delay: 1.4s" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2l2.6 6.4L21 11l-6.4 2.6L12 20l-2.6-6.4L3 11l6.4-2.6L12 2z" />
+            </svg>
+
+            <div id="speechBubble" class="speech-bubble -top-1 left-0 rotate-[-3deg] sm:-left-3">
+              <span id="speechFlag" class="mr-1" aria-hidden="true">🇪🇸</span><span id="speechText">¡Hola!</span>
+            </div>
+
+            <button type="button" id="mascotBtn" class="group absolute inset-x-0 bottom-[6%] z-10 mx-auto block w-[84%] cursor-pointer rounded-[50%] focus-visible:outline-offset-8" aria-label="Boop Pip the mascot. Warning: extremely boopable.">
+              <svg viewBox="0 0 260 260" class="w-full transition-transform duration-200 group-hover:scale-[1.015] group-active:scale-95" role="img" aria-label="Pip, a cheerful green bird">
+                <defs>
+                  <linearGradient id="pipBodyHero" x1="0" y1="0" x2="0.18" y2="1">
+                    <stop offset="0" stop-color="#7ee83a" />
+                    <stop offset="1" stop-color="#58cc02" />
+                  </linearGradient>
+                  <linearGradient id="pipBellyHero" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#f2ffdd" />
+                    <stop offset="1" stop-color="#cdf59c" />
+                  </linearGradient>
+                </defs>
+                <ellipse cx="130" cy="236" rx="64" ry="11" fill="#3c3c3c" opacity=".09" />
+                <g class="mascot-bob">
+                  <path d="M125 36 C118 17 128 9 134 25 C136 12 148 12 143 30Z" fill="#46a302" />
+                  <rect x="85" y="205" width="38" height="19" rx="9.5" fill="#ff9600" stroke="#e07f00" stroke-width="3" />
+                  <rect x="137" y="205" width="38" height="19" rx="9.5" fill="#ff9600" stroke="#e07f00" stroke-width="3" />
+                  <ellipse cx="55" cy="143" rx="21" ry="34" fill="#4fba02" stroke="#46a302" stroke-width="4" transform="rotate(14 55 143)" />
+                  <ellipse cx="205" cy="143" rx="21" ry="34" fill="#4fba02" stroke="#46a302" stroke-width="4" transform="rotate(-14 205 143)" />
+                  <path d="M130 30 C187 30 214 72 214 128 C214 190 180 220 130 220 C80 220 46 190 46 128 C46 72 73 30 130 30Z" fill="url(#pipBodyHero)" stroke="#46a302" stroke-width="5" />
+                  <ellipse cx="130" cy="166" rx="55" ry="45" fill="url(#pipBellyHero)" />
+                  <g class="mascot-eyes">
+                    <ellipse cx="102" cy="107" rx="24" ry="27" fill="#fff" stroke="#3c3c3c" stroke-width="4.5" />
+                    <ellipse cx="158" cy="107" rx="24" ry="27" fill="#fff" stroke="#3c3c3c" stroke-width="4.5" />
+                    <g class="mascot-pupils">
+                      <circle cx="105" cy="113" r="10.5" fill="#3c3c3c" />
+                      <circle cx="161" cy="113" r="10.5" fill="#3c3c3c" />
+                      <circle cx="109" cy="108" r="3.6" fill="#fff" />
+                      <circle cx="165" cy="108" r="3.6" fill="#fff" />
+                    </g>
+                  </g>
+                  <ellipse cx="75" cy="146" rx="11" ry="6.5" fill="#ffa6b5" opacity=".75" />
+                  <ellipse cx="185" cy="146" rx="11" ry="6.5" fill="#ffa6b5" opacity=".75" />
+                  <path d="M130 138 C140 138 150 146 150 154 C150 164 140 172 130 172 C120 172 110 164 110 154 C110 146 120 138 130 138Z" fill="#ff9600" stroke="#e07f00" stroke-width="3" />
+                  <path d="M119 156 C124 161 136 161 141 156" stroke="#e07f00" stroke-width="3" fill="none" stroke-linecap="round" />
+                  <path d="M74 176 C68 183 68 189 76 189" stroke="#46a302" stroke-width="4" fill="none" stroke-linecap="round" opacity=".55" />
+                  <path d="M186 176 C192 183 192 189 184 189" stroke="#46a302" stroke-width="4" fill="none" stroke-linecap="round" opacity=".55" />
+                </g>
+              </svg>
+            </button>
+
+            <div class="absolute top-[15%] right-0 hidden rotate-6 items-center gap-1.5 rounded-xl border-2 border-ink/10 bg-mango-soft px-2.5 py-1.5 font-display text-xs font-extrabold text-ink animate-float-slow sm:flex" aria-hidden="true">
+              🥐 Bonjour !
+            </div>
+            <div class="absolute bottom-[34%] left-0 hidden -rotate-6 items-center gap-1.5 rounded-xl border-2 border-ink/10 bg-sky-soft px-2.5 py-1.5 font-display text-xs font-extrabold text-ink animate-float sm:flex" style="animation-delay: 1.2s" aria-hidden="true">
+              こんにちは 🌸
+            </div>
+
+            <div class="float-card -left-1 bottom-[7%] sm:-left-4">
+              <div class="flex items-center gap-2">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-berry-soft text-xl" aria-hidden="true">🔥</span>
+                <div>
+                  <p class="font-display text-sm leading-none font-extrabold"><span id="streakCardCount">12</span>-day streak</p>
+                  <p class="mt-1 text-[10px] font-bold text-muted">Please don't stop now.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="float-card -right-1 -bottom-1 w-[150px] sm:-right-4 sm:w-[168px]">
+              <div class="flex items-center justify-between">
+                <p class="font-display text-[10px] font-extrabold tracking-widest text-muted uppercase">Daily goal</p>
+                <span class="animate-bob text-sm" aria-hidden="true">🎯</span>
+              </div>
+              <p id="dailyGoalText" class="mt-0.5 font-display text-sm font-extrabold">0 / 20 XP</p>
+              <div class="quest-bar mt-1.5 !h-2">
+                <i id="dailyGoalBar" style="width: 0%"></i>
+              </div>
+            </div>
+
+            <div class="absolute top-[42%] -right-2 hidden animate-float-up font-display text-sm font-extrabold text-grass-dark sm:block" aria-hidden="true">+10 XP</div>
+          </div>
+          <p class="mt-2 text-center text-[11px] font-bold text-muted">Psst… you can boop the bird.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TICKER ================= -->
+    <div class="overflow-hidden py-6" aria-hidden="true">
+      <div class="-rotate-1 border-y-2 border-ink/10 bg-mango py-3">
+        <div class="marquee ticker">
+          <div class="marquee-track" style="animation-duration: 32s">
+            <div class="marquee-group items-center gap-8 pr-8 font-display text-lg font-extrabold tracking-wide text-ink/75 sm:text-xl">
+              <span>¡Hola!</span><span class="text-ink/30">✦</span>
+              <span>Bonjour !</span><span class="text-ink/30">✦</span>
+              <span>こんにちは</span><span class="text-ink/30">✦</span>
+              <span>Hallo!</span><span class="text-ink/30">✦</span>
+              <span>Ciao!</span><span class="text-ink/30">✦</span>
+              <span>안녕하세요</span><span class="text-ink/30">✦</span>
+              <span>Ahoy!</span><span class="text-ink/30">✦</span>
+              <span>nuqneH</span><span class="text-ink/30">✦</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= STATS ================= -->
+    <section class="container-page py-10 sm:py-14" aria-label="LingoLoco in numbers">
+      <div class="reveal grid grid-cols-2 gap-y-8 text-center sm:grid-cols-4">
+        <div class="sm:border-r-2 sm:border-line">
+          <p class="font-display text-4xl font-extrabold text-grass-dark sm:text-5xl"><span data-count="62">62</span>M<span class="text-grass">+</span></p>
+          <p class="mt-1 text-[11px] font-extrabold tracking-wider text-muted uppercase">chronic yappers</p>
+        </div>
+        <div class="sm:border-r-2 sm:border-line">
+          <p class="font-display text-4xl font-extrabold text-sky-dark sm:text-5xl"><span data-count="3.4" data-decimals="1">3.4</span>B</p>
+          <p class="mt-1 text-[11px] font-extrabold tracking-wider text-muted uppercase">tiny triumphs</p>
+        </div>
+        <div class="sm:border-r-2 sm:border-line">
+          <p class="font-display text-4xl font-extrabold text-grape-dark sm:text-5xl"><span data-count="42">42</span></p>
+          <p class="mt-1 text-[11px] font-extrabold tracking-wider text-muted uppercase">languages of nonsense</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-extrabold text-mango-dark sm:text-5xl"><span data-count="4.9" data-decimals="1">4.9</span>★</p>
+          <p class="mt-1 text-[11px] font-extrabold tracking-wider text-muted uppercase">would boop Pip again</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LANGUAGES ================= -->
+    <section id="languages" class="relative py-16 sm:py-24">
+      <div class="pointer-events-none absolute top-20 -left-24 h-64 w-64 rounded-full bg-grape/5 blur-3xl" aria-hidden="true"></div>
+      <div class="container-page relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="eyebrow reveal text-grape-dark"><span aria-hidden="true">🎨</span> Pick your chaos</p>
+          <h2 class="reveal mt-3 font-display text-4xl leading-[0.95] font-extrabold tracking-tight text-balance sm:text-5xl" style="--reveal-delay: 60ms">What are we yapping in?</h2>
+          <p class="reveal mx-auto mt-4 max-w-lg text-base font-semibold text-muted text-pretty" style="--reveal-delay: 120ms">Pick a language. Any language. Pip has strong opinions but will support you either way.</p>
+          <div class="reveal mt-5 inline-flex items-center gap-2 rounded-full border-2 border-ink/10 bg-white px-4 py-2 font-display text-xs font-extrabold" style="--reveal-delay: 160ms">
+            <span class="h-2 w-2 animate-pulse rounded-full bg-grass"></span>
+            Currently yapping in
+            <span id="currentLangIcon" class="text-base" aria-hidden="true">💃</span>
+            <span id="currentLangBadge" class="text-grass-dark">Spanish</span>
+          </div>
+        </div>
+
+        <div id="languageGrid" class="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-4">
+          <button type="button" class="lang-card reveal" data-lang="Spanish" aria-pressed="true">
+            <span class="lang-check" aria-hidden="true">✓</span>
+            <span class="lang-flag bg-mango-soft" aria-hidden="true">💃</span>
+            <span class="mt-3 font-display text-lg font-extrabold sm:text-xl">Spanish</span>
+            <span class="mt-1 text-xs leading-snug font-semibold text-muted sm:text-sm">For abuelas, taco trucks, and dramatically rolling your R's.</span>
+            <span class="mt-auto flex w-full items-center justify-between gap-2 pt-4 text-[11px] font-extrabold text-muted">
+              <span>12.4M yappers</span>
+              <span class="text-grass-dark">Let's go →</span>
+            </span>
+          </button>
+
+          <button type="button" class="lang-card reveal" data-lang="French" aria-pressed="false" style="--reveal-delay: 50ms">
+            <span class="lang-check" aria-hidden="true">✓</span>
+            <span class="lang-flag bg-sky-soft" aria-hidden="true">🥐</span>
+            <span class="mt-3 font-display text-lg font-extrabold sm:text-xl">French</span>
+            <span class="mt-1 text-xs leading-snug font-semibold text-muted sm:text-sm">For pastries, philosophy, and pretending you know wine.</span>
+            <span class="mt-auto flex w-full items-center justify-between gap-2 pt-4 text-[11px] font-extrabold text-muted">
+              <span>8.1M romantics</span>
+              <span class="text-grass-dark">Let's go →</span>
+            </span>
+          </button>
+
+          <button type="button" class="lang-card reveal" data-lang="Japanese" aria-pressed="false" style="--reveal-delay: 100ms">
+            <span class="lang-check" aria-hidden="true">✓</span>
+            <span class="lang-flag bg-berry-soft" aria-hidden="true">🌸</span>
+            <span class="mt-3 font-display text-lg font-extrabold sm:text-xl">Japanese</span>
+            <span class="mt-1 text-xs leading-snug font-semibold text-muted sm:text-sm">For anime, ramen, and saying "kawaii" at everything.</span>
+            <span class="mt-auto flex w-full items-center justify-between gap-2 pt-4 text-[11px] font-extrabold text-muted">
+              <span>9.7M ramen fans</span>
+              <span class="text-grass-dark">Let's go →</span>
+            </span>
+          </button>
+
+          <button type="button" class="lang-card reveal" data-lang="German" aria-pressed="false" style="--reveal-delay: 150ms">
+            <span class="lang-check" aria-hidden="true">✓</span>
+            <span class="lang-flag bg-mango-soft" aria-hidden="true">🥨</span>
+            <span class="mt-3 font-display text-lg font-extrabold sm:text-xl">German</span>
+            <span class="mt-1 text-xs leading-snug font-semibold text-muted sm:text-sm">For efficiency, compound words, and very specific feelings.</span>
+            <span class="mt-auto flex w-full items-center justify-between gap-2 pt-4 text-[11px] font-extrabold text-muted">
+              <span>5.3M word-builders</span>
+              <span class="text-grass-dark">Let's go →</span>
+            </span>
+          </button>
+
+          <button type="button" class="lang-card reveal" data-lang="Italian" aria-pressed="false" style="--reveal-delay: 50ms">
+            <span class="lang-check" aria-hidden="true">✓</span>
+            <span class="lang-flag bg-grass-soft" aria-hidden="true">🍕</span>
+            <span class="mt-3 font-display text-lg font-extrabold sm:text-xl">Italian</span>
+            <span class="mt-1 text-xs leading-snug font-semibold text-muted sm:text-sm">For hand gestures, pasta opinions, and loud affection.</span>
+            <span class="mt-auto flex w-full items-center justify-between gap-2 pt-4 text-[11px] font-extrabold text-muted">
+              <span>6.6M hand-talkers</span>
+              <span class="text-grass-dark">Let's go →</span>
+            </span>
+          </button>
+
+          <button type="button" class="lang-card reveal" data-lang="Korean" aria-pressed="false" style="--reveal-delay: 100ms">
+            <span class="lang-check" aria-hidden="true">✓</span>
+            <span class="lang-flag bg-grape-soft" aria-hidden="true">🍜</span>
+            <span class="mt-3 font-display text-lg font-extrabold sm:text-xl">Korean</span>
+            <span class="mt-1 text-xs leading-snug font-semibold text-muted sm:text-sm">For K-pop lyrics, spicy noodles, and dramatic greetings.</span>
+            <span class="mt-auto flex w-full items-center justify-between gap-2 pt-4 text-[11px] font-extrabold text-muted">
+              <span>7.2M noodle people</span>
+              <span class="text-grass-dark">Let's go →</span>
+            </span>
+          </button>
+
+          <button type="button" class="lang-card reveal" data-lang="Pirate" aria-pressed="false" style="--reveal-delay: 150ms">
+            <span class="lang-check" aria-hidden="true">✓</span>
+            <span class="lang-flag bg-sky-soft" aria-hidden="true">🏴‍☠️</span>
+            <span class="mt-3 font-display text-lg font-extrabold sm:text-xl">Pirate</span>
+            <span class="mt-1 text-xs leading-snug font-semibold text-muted sm:text-sm">For treasure, questionable grammar, and saying "arrr" with confidence.</span>
+            <span class="mt-auto flex w-full items-center justify-between gap-2 pt-4 text-[11px] font-extrabold text-muted">
+              <span>3 scallions</span>
+              <span class="text-grass-dark">Let's go →</span>
+            </span>
+          </button>
+
+          <button type="button" class="lang-card reveal" data-lang="Klingon" aria-pressed="false" style="--reveal-delay: 200ms">
+            <span class="lang-check" aria-hidden="true">✓</span>
+            <span class="lang-flag bg-berry-soft" aria-hidden="true">🖖</span>
+            <span class="mt-3 font-display text-lg font-extrabold sm:text-xl">Klingon</span>
+            <span class="mt-1 text-xs leading-snug font-semibold text-muted sm:text-sm">For honor, opera, and confusing your coworkers at lunch.</span>
+            <span class="mt-auto flex w-full items-center justify-between gap-2 pt-4 text-[11px] font-extrabold text-muted">
+              <span>1 confused diplomat</span>
+              <span class="text-grass-dark">Let's go →</span>
+            </span>
+          </button>
+        </div>
+
+        <p class="mt-6 text-center text-[11px] font-bold text-muted">Pirate and Klingon are here for the vibes. Please don't put them on your résumé. (We won't stop you.)</p>
+      </div>
+    </section>
+
+    <!-- ================= PATH ================= -->
+    <section id="path" class="relative py-16 sm:py-24">
+      <div class="pointer-events-none absolute inset-x-0 top-1/2 -z-10 h-[520px] -translate-y-1/2 bg-gradient-to-b from-transparent via-grass-soft/40 to-transparent" aria-hidden="true"></div>
+      <div class="container-page">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="eyebrow reveal text-grass-dark"><span aria-hidden="true">🛣️</span> The roadmap</p>
+          <h2 class="reveal mt-3 font-display text-4xl leading-[0.95] font-extrabold tracking-tight text-balance sm:text-5xl" style="--reveal-delay: 60ms">Your chaotic little trail to fluency</h2>
+          <p class="reveal mx-auto mt-4 max-w-lg text-base font-semibold text-muted text-pretty" style="--reveal-delay: 120ms">Tap a glowing node. Survive three questions. Unlock the next bit of nonsense. That's the whole business model.</p>
+        </div>
+
+        <div class="mt-10 grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <div class="card reveal overflow-hidden">
+            <div class="relative overflow-hidden border-b-2 border-ink/10 bg-gradient-to-r from-[#2f7d00] to-[#1b7f52] px-5 py-5 text-white sm:px-6">
+              <div class="pointer-events-none absolute -top-10 -right-8 h-32 w-32 rounded-full bg-white/10" aria-hidden="true"></div>
+              <div class="pointer-events-none absolute -bottom-12 right-24 h-24 w-24 rounded-full bg-white/10" aria-hidden="true"></div>
+              <div class="relative flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p class="font-display text-[10px] font-extrabold tracking-[0.2em] text-white uppercase">Unit 1 · absolute basics</p>
+                  <h3 class="mt-1 font-display text-xl leading-tight font-extrabold sm:text-2xl">Café survival (and other emergencies)</h3>
+                </div>
+                <button type="button" id="guidebookBtn" class="inline-flex items-center gap-1.5 rounded-xl border-2 border-white/70 bg-white px-3 py-1.5 font-display text-xs font-extrabold text-[#173a00] transition hover:bg-grass-soft" aria-label="Open the unit guidebook">
+                  📖 Guidebook
+                </button>
+              </div>
+              <div class="relative mt-4 flex items-center gap-3">
+                <div class="h-3 flex-1 overflow-hidden rounded-full bg-white/25">
+                  <i id="unitProgressBar" class="block h-full rounded-full bg-white transition-all duration-700" style="width: 12.5%"></i>
+                </div>
+                <span id="unitProgressText" class="font-display text-xs font-extrabold whitespace-nowrap text-white">1 / 8 lessons</span>
+              </div>
+            </div>
+
+            <div id="pathTrack" class="path-track px-4 pt-16 pb-8 sm:px-8">
+              <svg id="pathSvg" class="path-svg" aria-hidden="true"></svg>
+
+              <div class="path-row" style="--x: -10px">
+                <button type="button" class="path-node done" data-node="0" aria-label="Lesson 1: Say hi, human">
+                  <span class="node-emoji" aria-hidden="true">👋</span>
+                  <span class="node-tip">Say hi, human · 3 min · replay</span>
+                </button>
+                <span class="path-label">Say hi, human</span>
+              </div>
+
+              <div class="path-row" style="--x: 78px">
+                <button type="button" class="path-node current" data-node="1" aria-label="Lesson 2: Café survival, start here">
+                  <span class="node-emoji" aria-hidden="true">☕</span>
+                  <span class="node-tip">Café survival · 4 min</span>
+                </button>
+                <span class="path-label">Café survival</span>
+              </div>
+
+              <div class="path-row" style="--x: 30px">
+                <button type="button" class="path-node locked" data-node="2" aria-label="Lesson 3: Polite chaos, locked">
+                  <span class="node-emoji" aria-hidden="true">🙃</span>
+                  <span class="node-tip">Polite chaos · locked</span>
+                </button>
+                <span class="path-label">Polite chaos</span>
+              </div>
+
+              <div class="path-row" style="--x: -62px">
+                <button type="button" class="path-node locked" data-node="3" aria-label="Lesson 4: Numbers and snacks, locked">
+                  <span class="node-emoji" aria-hidden="true">🍟</span>
+                  <span class="node-tip">Numbers &amp; snacks · locked</span>
+                </button>
+                <span class="path-label">Numbers &amp; snacks</span>
+              </div>
+
+              <div class="path-row" style="--x: 8px">
+                <button type="button" class="path-node locked" data-node="4" aria-label="Lesson 5: Where is it, locked">
+                  <span class="node-emoji" aria-hidden="true">🗺️</span>
+                  <span class="node-tip">Where is…? · locked</span>
+                </button>
+                <span class="path-label">Where is…?</span>
+              </div>
+
+              <div class="path-row" style="--x: 76px">
+                <button type="button" class="path-node locked" data-node="5" aria-label="Lesson 6: Make a friend, locked">
+                  <span class="node-emoji" aria-hidden="true">🤝</span>
+                  <span class="node-tip">Make a friend · locked</span>
+                </button>
+                <span class="path-label">Make a friend</span>
+              </div>
+
+              <div class="path-row" style="--x: -20px">
+                <button type="button" class="path-node locked" data-node="6" aria-label="Lesson 7: Dessert negotiations, locked">
+                  <span class="node-emoji" aria-hidden="true">🍰</span>
+                  <span class="node-tip">Dessert negotiations · locked</span>
+                </button>
+                <span class="path-label">Dessert negotiations</span>
+              </div>
+
+              <div class="path-row" style="--x: -88px">
+                <button type="button" class="path-node locked" data-node="7" aria-label="Lesson 8: Small talk boss, locked">
+                  <span class="node-emoji" aria-hidden="true">🗣️</span>
+                  <span class="node-tip">Small talk boss · locked</span>
+                </button>
+                <span class="path-label">Small talk boss</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-3 border-t-2 border-ink/10 bg-[#fdfbf4] p-4 sm:flex-row sm:items-center sm:justify-between">
+              <p class="text-xs leading-snug font-bold text-muted">Complete a lesson, unlock the next. Pip believes in you. Loudly.</p>
+              <button type="button" id="resumeBtn" class="btn btn-green btn-sm shrink-0" data-confetti>Resume lesson →</button>
+            </div>
+          </div>
+
+          <aside class="reveal space-y-5 lg:sticky lg:top-24" style="--reveal-delay: 100ms">
+            <div class="card p-5">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <p class="eyebrow text-grape-dark"><span aria-hidden="true">🎯</span> Daily quests</p>
+                  <h3 class="mt-1 font-display text-xl font-extrabold">Tiny wins, big ego</h3>
+                </div>
+                <span class="animate-float text-2xl" aria-hidden="true">🪄</span>
+              </div>
+
+              <div class="mt-5 space-y-4">
+                <div>
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="flex items-center gap-2 text-sm font-extrabold"><span class="text-base" aria-hidden="true">⚡</span> Earn 30 XP</span>
+                    <span id="questXpText" class="text-[11px] font-extrabold text-muted">0 / 30</span>
+                  </div>
+                  <div class="quest-bar mt-2"><i id="questXpBar" style="width: 0%"></i></div>
+                </div>
+
+                <div>
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="flex items-center gap-2 text-sm font-extrabold"><span class="text-base" aria-hidden="true">📚</span> Finish a lesson</span>
+                    <span id="questLessonText" class="text-[11px] font-extrabold text-muted">0 / 1</span>
+                  </div>
+                  <div class="quest-bar mt-2"><i id="questLessonBar" style="width: 0%"></i></div>
+                </div>
+
+                <div>
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="flex items-center gap-2 text-sm font-extrabold"><span class="text-base" aria-hidden="true">🦜</span> Say "hola" out loud</span>
+                    <button type="button" id="sayQuestBtn" class="quest-toggle" aria-pressed="false">Done</button>
+                  </div>
+                  <div class="quest-bar mt-2"><i id="questSayBar" style="width: 0%"></i></div>
+                </div>
+              </div>
+
+              <button type="button" id="mysteryBtn" class="btn btn-grape btn-sm mt-5 w-full">Mystery box 🎁</button>
+            </div>
+
+            <div class="card relative overflow-hidden bg-gradient-to-br from-grape-soft via-white to-sky-soft p-5">
+              <div class="pointer-events-none absolute -top-6 -right-6 h-24 w-24 rounded-full bg-white/50 blur-xl" aria-hidden="true"></div>
+              <div class="relative flex items-center gap-3">
+                <span class="grid h-11 w-11 place-items-center rounded-2xl bg-white text-2xl shadow-sm" aria-hidden="true">🏆</span>
+                <div>
+                  <p class="font-display text-base leading-none font-extrabold">Emerald League</p>
+                  <p class="mt-1 text-[10px] font-extrabold tracking-wide text-muted uppercase">5 days left</p>
+                </div>
+              </div>
+              <p class="relative mt-3 text-sm leading-snug font-semibold text-muted">You're <span id="leagueRank" class="font-extrabold text-grape-dark">#8</span> this week. Top 3 get promoted to slightly harder lessons. The rest get character.</p>
+              <a href="#leagues" class="btn btn-white btn-sm relative mt-4 w-full">View the league</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LEADERBOARD ================= -->
+    <section id="leagues" class="py-16 sm:py-24">
+      <div class="container-page max-w-3xl">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="eyebrow reveal text-mango-dark"><span aria-hidden="true">🏆</span> The league of extraordinary yappers</p>
+          <h2 class="reveal mt-3 font-display text-4xl leading-[0.95] font-extrabold tracking-tight text-balance sm:text-5xl" style="--reveal-delay: 60ms">Someone's always online. It's @BagelQueen.</h2>
+          <p class="reveal mx-auto mt-4 max-w-lg text-base font-semibold text-muted text-pretty" style="--reveal-delay: 120ms">Finish lessons, climb the leaderboard, feel briefly superior. Healthy competition, we promise.</p>
+        </div>
+
+        <div class="card reveal mt-9 overflow-hidden">
+          <div class="relative overflow-hidden border-b-2 border-ink/10 bg-gradient-to-r from-mango-soft via-white to-sky-soft px-5 py-5">
+            <div class="pointer-events-none absolute -top-8 right-20 h-24 w-24 rounded-full bg-white/60" aria-hidden="true"></div>
+            <div class="relative flex flex-wrap items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="grid h-12 w-12 place-items-center rounded-2xl border-2 border-mango/40 bg-white text-2xl" aria-hidden="true">🏆</span>
+                <div>
+                  <h3 class="font-display text-lg leading-none font-extrabold">Emerald League</h3>
+                  <p class="mt-1 text-[11px] font-extrabold tracking-wide text-muted uppercase">Top 3 escape to Sapphire</p>
+                </div>
+              </div>
+              <span class="rounded-full border-2 border-ink/10 bg-white px-3 py-1.5 font-display text-[11px] font-extrabold text-muted">⏳ 5d 12h left</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-center gap-1 border-b-2 border-ink/10 bg-[#fdfbf4] p-3" role="tablist" aria-label="Leaderboard timeframe">
+            <button type="button" class="tab-btn is-active" data-board="week" role="tab" aria-selected="true">This week</button>
+            <button type="button" class="tab-btn" data-board="all" role="tab" aria-selected="false">All time</button>
+          </div>
+
+          <div id="leaderboardList" class="space-y-1 p-3 sm:p-4" aria-live="polite">
+            <!-- Leaderboard rows are rendered by JavaScript -->
+          </div>
+
+          <p class="border-t-2 border-ink/10 bg-[#fdfbf4] px-4 py-3 text-center text-[11px] font-bold text-muted">Leagues reset every Monday. Grudges last longer.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TESTIMONIALS ================= -->
+    <section class="relative overflow-hidden py-16 sm:py-24">
+      <div class="mx-auto max-w-2xl px-4 text-center">
+        <p class="eyebrow reveal text-sky-dark"><span aria-hidden="true">💬</span> Peer-reviewed nonsense</p>
+        <h2 class="reveal mt-3 font-display text-4xl leading-[0.95] font-extrabold tracking-tight text-balance sm:text-5xl" style="--reveal-delay: 60ms">People are saying things.</h2>
+        <p class="reveal mx-auto mt-4 max-w-lg text-base font-semibold text-muted text-pretty" style="--reveal-delay: 120ms">Real-ish reviews from real-ish humans with excellent taste in mascots.</p>
+      </div>
+
+      <div class="mt-10 space-y-4">
+        <div class="marquee" data-marquee>
+          <div class="marquee-track">
+            <div class="marquee-group">
+              <blockquote class="quote-card">
+                <p class="text-sm leading-relaxed font-bold text-ink/70">“I told my cat ‘te amo’ and she walked away. <span class="text-grass-dark">Progress.</span>”</p>
+                <footer class="flex items-center gap-2.5">
+                  <span class="grid h-9 w-9 place-items-center rounded-xl bg-grape-soft text-lg" aria-hidden="true">🧘‍♀️</span>
+                  <div>
+                    <p class="text-xs font-extrabold">@HollyMood</p>
+                    <p class="text-[10px] font-bold text-mango-dark">★★★★★</p>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="quote-card">
+                <p class="text-sm leading-relaxed font-bold text-ink/70">“I have learned four words and three of them are food. <span class="text-grass-dark">Worth it.</span>”</p>
+                <footer class="flex items-center gap-2.5">
+                  <span class="grid h-9 w-9 place-items-center rounded-xl bg-mango-soft text-lg" aria-hidden="true">🍕</span>
+                  <div>
+                    <p class="text-xs font-extrabold">@SnackLord</p>
+                    <p class="text-[10px] font-bold text-mango-dark">★★★★★</p>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="quote-card">
+                <p class="text-sm leading-relaxed font-bold text-ink/70">“My streak is 74 days. My laundry is three weeks old. <span class="text-grass-dark">Priorities.</span>”</p>
+                <footer class="flex items-center gap-2.5">
+                  <span class="grid h-9 w-9 place-items-center rounded-xl bg-berry-soft text-lg" aria-hidden="true">🧦</span>
+                  <div>
+                    <p class="text-xs font-extrabold">@ChaosGoblin</p>
+                    <p class="text-[10px] font-bold text-mango-dark">★★★★★</p>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="quote-card">
+                <p class="text-sm leading-relaxed font-bold text-ink/70">“I came for the owl. Stayed because Pip makes me feel <span class="text-grass-dark">seen.</span>”</p>
+                <footer class="flex items-center gap-2.5">
+                  <span class="grid h-9 w-9 place-items-center rounded-xl bg-sky-soft text-lg" aria-hidden="true">🦉</span>
+                  <div>
+                    <p class="text-xs font-extrabold">@NightOwlish</p>
+                    <p class="text-[10px] font-bold text-mango-dark">★★★★★</p>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="quote-card">
+                <p class="text-sm leading-relaxed font-bold text-ink/70">“Ordered a coffee in French. Got a croissant. <span class="text-grass-dark">10/10.</span>”</p>
+                <footer class="flex items-center gap-2.5">
+                  <span class="grid h-9 w-9 place-items-center rounded-xl bg-mango-soft text-lg" aria-hidden="true">🥐</span>
+                  <div>
+                    <p class="text-xs font-extrabold">@ButterFan</p>
+                    <p class="text-[10px] font-bold text-mango-dark">★★★★★</p>
+                  </div>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+
+        <div class="marquee marquee-reverse" data-marquee>
+          <div class="marquee-track">
+            <div class="marquee-group">
+              <blockquote class="quote-card">
+                <p class="text-sm leading-relaxed font-bold text-ink/70">“My dog speaks better German than my ex. <span class="text-grass-dark">This app helped.</span>”</p>
+                <footer class="flex items-center gap-2.5">
+                  <span class="grid h-9 w-9 place-items-center rounded-xl bg-grass-soft text-lg" aria-hidden="true">🐕</span>
+                  <div>
+                    <p class="text-xs font-extrabold">@SadButThriving</p>
+                    <p class="text-[10px] font-bold text-mango-dark">★★★★★</p>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="quote-card">
+                <p class="text-sm leading-relaxed font-bold text-ink/70">“I said ‘bonjour’ to a pigeon. It flew away. <span class="text-grass-dark">Confidence +1.</span>”</p>
+                <footer class="flex items-center gap-2.5">
+                  <span class="grid h-9 w-9 place-items-center rounded-xl bg-sky-soft text-lg" aria-hidden="true">🐦</span>
+                  <div>
+                    <p class="text-xs font-extrabold">@PigeonWhisperer</p>
+                    <p class="text-[10px] font-bold text-mango-dark">★★★★★</p>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="quote-card">
+                <p class="text-sm leading-relaxed font-bold text-ink/70">“Three minutes a day. I now argue with my GPS in Spanish. <span class="text-grass-dark">¡Increíble!</span>”</p>
+                <footer class="flex items-center gap-2.5">
+                  <span class="grid h-9 w-9 place-items-center rounded-xl bg-berry-soft text-lg" aria-hidden="true">🚗</span>
+                  <div>
+                    <p class="text-xs font-extrabold">@RoadRageRosa</p>
+                    <p class="text-[10px] font-bold text-mango-dark">★★★★★</p>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="quote-card">
+                <p class="text-sm leading-relaxed font-bold text-ink/70">“I don't remember birthdays but I know 12 words for cheese. <span class="text-grass-dark">Balance.</span>”</p>
+                <footer class="flex items-center gap-2.5">
+                  <span class="grid h-9 w-9 place-items-center rounded-xl bg-mango-soft text-lg" aria-hidden="true">🧀</span>
+                  <div>
+                    <p class="text-xs font-extrabold">@FromageFiend</p>
+                    <p class="text-[10px] font-bold text-mango-dark">★★★★★</p>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="quote-card">
+                <p class="text-sm leading-relaxed font-bold text-ink/70">“The mascot blinked at me. I almost paid for a subscription. <span class="text-grass-dark">It's free?</span>”</p>
+                <footer class="flex items-center gap-2.5">
+                  <span class="grid h-9 w-9 place-items-center rounded-xl bg-grape-soft text-lg" aria-hidden="true">🐥</span>
+                  <div>
+                    <p class="text-xs font-extrabold">@EasilyInfluenced</p>
+                    <p class="text-[10px] font-bold text-mango-dark">★★★★★</p>
+                  </div>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section id="faq" class="py-16 sm:py-24">
+      <div class="container-page grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div class="lg:sticky lg:top-28">
+          <p class="eyebrow reveal text-berry-dark"><span aria-hidden="true">❓</span> FAQs, probably</p>
+          <h2 class="reveal mt-3 font-display text-4xl leading-[0.95] font-extrabold tracking-tight text-balance sm:text-5xl" style="--reveal-delay: 60ms">Things people ask before accidentally learning a language.</h2>
+          <p class="reveal mt-4 max-w-md text-base font-semibold text-muted" style="--reveal-delay: 120ms">Still confused? Yell into the void. The void reads every message and responds in 3–5 business years.</p>
+
+          <div class="reveal mt-6 flex items-center gap-3 rounded-2xl border-2 border-ink/10 bg-white p-3" style="--reveal-delay: 180ms">
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-grass-soft" aria-hidden="true">
+              <svg viewBox="0 0 64 64" class="h-9 w-9">
+                <circle cx="32" cy="35" r="23" fill="#58cc02" stroke="#46a302" stroke-width="3" />
+                <path d="M29 13 C26 6 32 5 33 11 C35 6 41 8 37 14Z" fill="#46a302" />
+                <ellipse cx="23" cy="33" rx="6.5" ry="7.5" fill="#fff" stroke="#3c3c3c" stroke-width="2" />
+                <ellipse cx="41" cy="33" rx="6.5" ry="7.5" fill="#fff" stroke="#3c3c3c" stroke-width="2" />
+                <circle cx="24" cy="34" r="2.8" fill="#3c3c3c" />
+                <circle cx="42" cy="34" r="2.8" fill="#3c3c3c" />
+                <path d="M32 40 L38.5 45.5 L32 51 L25.5 45.5Z" fill="#ff9600" stroke="#e07f00" stroke-width="2" />
+              </svg>
+            </span>
+            <div class="flex-1">
+              <p class="font-display text-sm font-extrabold">Ask Pip anything</p>
+              <p class="text-[11px] font-bold text-muted">He is unqualified and extremely confident.</p>
+            </div>
+            <button type="button" id="askPipBtn" class="btn btn-green btn-sm shrink-0">Ask</button>
+          </div>
+        </div>
+
+        <div class="reveal space-y-3" style="--reveal-delay: 80ms">
+          <div class="faq-item open">
+            <button type="button" class="faq-btn" aria-expanded="true" aria-controls="faq-panel-1">
+              <span>Is this actually free?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div id="faq-panel-1" class="faq-panel">
+              <div class="faq-panel-inner">
+                <p class="px-5 pb-5 text-sm leading-relaxed font-semibold text-muted">Completely. Your wallet is safe. Your streak, however, now owns a small, non-negotiable part of your soul. That part is also free.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-panel-2">
+              <span>How long is a lesson, really?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div id="faq-panel-2" class="faq-panel">
+              <div class="faq-panel-inner">
+                <p class="px-5 pb-5 text-sm leading-relaxed font-semibold text-muted">About three minutes. Two if you panic and guess. Four if you get emotionally attached to the bird mid-question.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-panel-3">
+              <span>Will I actually become fluent?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div id="faq-panel-3" class="faq-panel">
+              <div class="faq-panel-inner">
+                <p class="px-5 pb-5 text-sm leading-relaxed font-semibold text-muted">You'll become fluent in confidence first. Grammar arrives later, wearing a sensible cardigan and holding a tiny notebook. Give it a month.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-panel-4">
+              <span>What happens if I break my streak?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div id="faq-panel-4" class="faq-panel">
+              <div class="faq-panel-inner">
+                <p class="px-5 pb-5 text-sm leading-relaxed font-semibold text-muted">Pip will look at you. Not angrily. Worse: disappointedly. Then you can restart immediately with zero lectures. Okay, one small lecture. It's about snacks.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-panel-5">
+              <span>Are Pirate and Klingon real courses?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div id="faq-panel-5" class="faq-panel">
+              <div class="faq-panel-inner">
+                <p class="px-5 pb-5 text-sm leading-relaxed font-semibold text-muted">Pirate is 100% real (source: trust us). Klingon is here for honor and vibes. Please don't put either on your résumé. We will not stop you, but we will wince.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-panel-6">
+              <span>Why is the mascot a bird?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div id="faq-panel-6" class="faq-panel">
+              <div class="faq-panel-inner">
+                <p class="px-5 pb-5 text-sm leading-relaxed font-semibold text-muted">Owls are taken. Pip is a highly qualified emotional-support bird with a minor in snacks and an unhealthy attachment to your daily goal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CTA / NEWSLETTER ================= -->
+    <section class="py-12 pb-24 sm:py-16 sm:pb-28">
+      <div class="container-page max-w-6xl">
+        <div class="reveal relative overflow-hidden rounded-[2.5rem] border-4 border-white bg-gradient-to-br from-[#2f7d00] via-[#1b7f52] to-[#0b6f96] px-6 py-10 text-white shadow-[0_14px_0_rgba(47,125,0,0.22)] sm:px-12 sm:py-14">
+          <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+            <div class="absolute -top-16 -left-10 h-48 w-48 rounded-full bg-white/10"></div>
+            <div class="absolute -right-8 -bottom-20 h-64 w-64 rounded-full border-[24px] border-white/10"></div>
+            <svg class="absolute top-10 right-[42%] hidden h-7 w-7 animate-sparkle text-white/70 sm:block" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.6 6.4L21 11l-6.4 2.6L12 20l-2.6-6.4L3 11l6.4-2.6L12 2z" />
+            </svg>
+          </div>
+
+          <div class="relative grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+            <div class="text-center lg:text-left">
+              <p class="eyebrow justify-center text-white lg:justify-start"><span aria-hidden="true">💌</span> One ridiculous phrase a day</p>
+              <h2 class="mt-3 font-display text-4xl leading-[0.95] font-extrabold tracking-tight text-balance sm:text-5xl">Your inbox is boring.<br class="hidden sm:block" /> Let's fix that.</h2>
+              <p class="mx-auto mt-4 max-w-md text-sm leading-relaxed font-semibold text-white sm:text-base lg:mx-0">Get a tiny, semi-useful phrase every morning. No spam. Occasionally a duck.</p>
+
+              <form id="newsletterForm" class="mx-auto mt-6 flex w-full max-w-md flex-col gap-3 sm:flex-row lg:mx-0" novalidate>
+                <label for="newsletterEmail" class="sr-only">Email address</label>
+                <input id="newsletterEmail" name="email" type="email" autocomplete="email" class="form-input !border-white/40 !bg-white/95 !text-ink placeholder:!text-muted" placeholder="you@example.com" />
+                <button type="submit" class="btn btn-mango shrink-0">Send nonsense</button>
+              </form>
+              <p id="newsletterMsg" class="mt-3 text-xs font-bold text-white" role="status" aria-live="polite">We'll never sell your email. We genuinely don't know how.</p>
+            </div>
+
+            <div class="relative mx-auto hidden w-full max-w-[300px] lg:block">
+              <div class="absolute inset-x-4 bottom-0 h-[85%] rounded-[45%_55%_52%_48%/48%_44%_56%_52%] bg-white/15" aria-hidden="true"></div>
+              <svg viewBox="0 0 260 260" class="relative mx-auto w-full rotate-3 drop-shadow-[0_18px_0_rgba(60,60,60,0.12)]" role="img" aria-label="Pip wearing sunglasses">
+                <defs>
+                  <linearGradient id="pipBodyCta" x1="0" y1="0" x2="0.18" y2="1">
+                    <stop offset="0" stop-color="#8ff24f" />
+                    <stop offset="1" stop-color="#58cc02" />
+                  </linearGradient>
+                  <linearGradient id="pipBellyCta" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#f2ffdd" />
+                    <stop offset="1" stop-color="#cdf59c" />
+                  </linearGradient>
+                </defs>
+                <ellipse cx="130" cy="236" rx="62" ry="10" fill="#1e4a00" opacity=".18" />
+                <g class="mascot-bob">
+                  <path d="M125 36 C118 17 128 9 134 25 C136 12 148 12 143 30Z" fill="#46a302" />
+                  <rect x="85" y="205" width="38" height="19" rx="9.5" fill="#ff9600" stroke="#e07f00" stroke-width="3" />
+                  <rect x="137" y="205" width="38" height="19" rx="9.5" fill="#ff9600" stroke="#e07f00" stroke-width="3" />
+                  <ellipse cx="55" cy="143" rx="21" ry="34" fill="#4fba02" stroke="#46a302" stroke-width="4" transform="rotate(14 55 143)" />
+                  <ellipse cx="205" cy="143" rx="21" ry="34" fill="#4fba02" stroke="#46a302" stroke-width="4" transform="rotate(-14 205 143)" />
+                  <path d="M130 30 C187 30 214 72 214 128 C214 190 180 220 130 220 C80 220 46 190 46 128 C46 72 73 30 130 30Z" fill="url(#pipBodyCta)" stroke="#46a302" stroke-width="5" />
+                  <ellipse cx="130" cy="166" rx="55" ry="45" fill="url(#pipBellyCta)" />
+                  <ellipse cx="102" cy="107" rx="24" ry="27" fill="#fff" stroke="#3c3c3c" stroke-width="4.5" />
+                  <ellipse cx="158" cy="107" rx="24" ry="27" fill="#fff" stroke="#3c3c3c" stroke-width="4.5" />
+                  <circle cx="105" cy="113" r="10.5" fill="#3c3c3c" />
+                  <circle cx="161" cy="113" r="10.5" fill="#3c3c3c" />
+                  <circle cx="109" cy="108" r="3.6" fill="#fff" />
+                  <circle cx="165" cy="108" r="3.6" fill="#fff" />
+                  <g>
+                    <rect x="74" y="92" width="48" height="26" rx="10" fill="#3c3c3c" stroke="#242424" stroke-width="3" />
+                    <rect x="138" y="92" width="48" height="26" rx="10" fill="#3c3c3c" stroke="#242424" stroke-width="3" />
+                    <path d="M122 101 C126 97 134 97 138 101" fill="none" stroke="#242424" stroke-width="6" stroke-linecap="round" />
+                    <path d="M82 99 l12 -3" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".55" />
+                    <path d="M146 99 l12 -3" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".55" />
+                  </g>
+                  <ellipse cx="75" cy="146" rx="11" ry="6.5" fill="#ffa6b5" opacity=".75" />
+                  <ellipse cx="185" cy="146" rx="11" ry="6.5" fill="#ffa6b5" opacity=".75" />
+                  <path d="M130 138 C140 138 150 146 150 154 C150 164 140 172 130 172 C120 172 110 164 110 154 C110 146 120 138 130 138Z" fill="#ff9600" stroke="#e07f00" stroke-width="3" />
+                  <path d="M119 156 C124 161 136 161 141 156" stroke="#e07f00" stroke-width="3" fill="none" stroke-linecap="round" />
+                </g>
+              </svg>
+              <div class="absolute -left-2 top-6 -rotate-6 rounded-xl border-2 border-white bg-white px-3 py-1.5 font-display text-xs font-extrabold text-ink shadow-md">😎 certified cool</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t-2 border-ink/10 bg-[#fdf9ee]">
+    <div class="container-page py-12 sm:py-16">
+      <div class="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
+        <div>
+          <a href="#top" class="group inline-flex items-center gap-2" aria-label="LingoLoco home">
+            <span class="logo-mark" aria-hidden="true">
+              <svg viewBox="0 0 64 64" class="h-8 w-8">
+                <circle cx="32" cy="35" r="24" fill="#58cc02" stroke="#46a302" stroke-width="3" />
+                <path d="M29 12 C26 5 32 4 33 10 C35 5 41 7 37 13Z" fill="#46a302" />
+                <ellipse cx="23" cy="32" rx="6.5" ry="7.5" fill="#fff" stroke="#3c3c3c" stroke-width="2" />
+                <ellipse cx="41" cy="32" rx="6.5" ry="7.5" fill="#fff" stroke="#3c3c3c" stroke-width="2" />
+                <circle cx="24" cy="33" r="2.8" fill="#3c3c3c" />
+                <circle cx="42" cy="33" r="2.8" fill="#3c3c3c" />
+                <path d="M32 39 L38.5 44.5 L32 50 L25.5 44.5Z" fill="#ff9600" stroke="#e07f00" stroke-width="2" />
+              </svg>
+            </span>
+            <span class="font-display text-2xl font-extrabold tracking-tight">lingo<span class="text-grass">loco</span></span>
+          </a>
+          <p class="mt-4 max-w-xs text-sm leading-relaxed font-semibold text-muted">Tiny, ridiculous lessons for people who want to sound interesting at parties. Made with too much coffee and one emotionally supportive bird.</p>
+          <div class="mt-5 flex gap-2">
+            <button type="button" class="icon-btn" data-toast="Our social media manager is a parrot. Posts are 80% crackers. 🦜" aria-label="LingoLoco on Chirper">🐦</button>
+            <button type="button" class="icon-btn" data-toast="Instagram: 400 photos of Pip. Zero of our lunch. 📸" aria-label="LingoLoco on Snapshot">📸</button>
+            <button type="button" class="icon-btn" data-toast="Our TikTok is just Pip blinking for 12 seconds. 4M views. 🎵" aria-label="LingoLoco on TokTok">🎵</button>
+            <button type="button" class="icon-btn" data-toast="YouTube: 'How to say hello' — 43 minutes. We got carried away. ▶️" aria-label="LingoLoco on TubeTube">▶️</button>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-display text-sm font-extrabold tracking-wider text-muted uppercase">Learn</h3>
+          <ul class="mt-4 space-y-2.5">
+            <li><a href="#languages" class="footer-link">All languages</a></li>
+            <li><a href="#path" class="footer-link">Learning path</a></li>
+            <li><a href="#leagues" class="footer-link">Leagues</a></li>
+            <li><a href="#path" class="footer-link">Daily quests</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-display text-sm font-extrabold tracking-wider text-muted uppercase">Company</h3>
+          <ul class="mt-4 space-y-2.5">
+            <li><button type="button" class="footer-link text-left" data-toast="About us: 6 humans, 1 bird, 4,000 snacks. 🍪">About</button></li>
+            <li><button type="button" class="footer-link text-left" data-toast="Careers: we're not hiring, but Pip needs an assistant. Apply inside the mystery box. 🎁">Careers</button></li>
+            <li><button type="button" class="footer-link text-left" data-toast="Press kit: one (1) high-res photo of Pip looking surprised. 📸">Press</button></li>
+            <li><button type="button" class="footer-link text-left" data-toast="Contact: yell into the void. The void is on lunch until Tuesday. 📣">Contact</button></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-display text-sm font-extrabold tracking-wider text-muted uppercase">Nonsense</h3>
+          <ul class="mt-4 space-y-2.5">
+            <li><a href="#faq" class="footer-link">FAQ</a></li>
+            <li><button type="button" class="footer-link text-left" data-toast="Blog: we forgot to write it. The draft is a single emoji. 🦜">Blog</button></li>
+            <li><button type="button" class="footer-link text-left" data-toast="Merch: socks that say 'hola' on one foot and 'help' on the other. 🧦">Merch</button></li>
+            <li><button type="button" class="footer-link text-left" data-toast="Send us a postcard. Pip will eat it. He says thank you. 💌">Fan mail</button></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t-2 border-ink/10 pt-6 text-center sm:flex-row sm:text-left">
+        <p class="text-[11px] font-bold text-muted">© 2026 LingoLoco. All rights reserved-ish. No birds were harmed, only mildly booped.</p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <button type="button" class="text-[11px] font-bold text-muted transition hover:text-grass-dark" data-toast="Privacy policy: we use 0 cookies. We prefer croissants. 🥐">Privacy</button>
+          <button type="button" class="text-[11px] font-bold text-muted transition hover:text-grass-dark" data-toast="Terms: be nice, learn words, don't challenge the bird to a duel. ⚔️">Terms</button>
+          <button type="button" class="text-[11px] font-bold text-muted transition hover:text-grass-dark" data-toast="Cookie policy: the only cookie is the imaginary one in the mystery box. 🍪">Cookies</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button type="button" id="backToTop" class="pointer-events-none fixed right-4 bottom-5 z-40 grid h-11 w-11 translate-y-16 place-items-center rounded-2xl border-2 border-ink/10 bg-white text-lg opacity-0 shadow-[0_5px_0_rgba(60,60,60,0.08)] transition-all duration-300 hover:-translate-y-1 hover:bg-grass-soft sm:right-6 sm:bottom-6" aria-label="Back to top">↑</button>
+
+  <!-- ================= LESSON MODAL ================= -->
+  <div id="lessonModal" class="modal-shell" role="dialog" aria-modal="true" aria-labelledby="lessonTitle" aria-hidden="true">
+    <div class="modal-panel" id="lessonPanel">
+      <header class="flex shrink-0 items-center gap-3 border-b-2 border-ink/10 px-4 py-3 sm:px-5">
+        <button type="button" id="closeLesson" class="icon-btn !h-9 !w-9 shrink-0 text-sm" aria-label="Close lesson">✕</button>
+        <div class="lesson-progress flex-1"><i id="lessonProgressBar" style="width: 0%"></i></div>
+        <div id="hearts" class="flex shrink-0 items-center gap-0.5" aria-label="3 hearts remaining">
+          <span class="heart" aria-hidden="true">❤️</span>
+          <span class="heart" aria-hidden="true">❤️</span>
+          <span class="heart" aria-hidden="true">❤️</span>
+        </div>
+      </header>
+      <div id="lessonBody" class="flex-1 overflow-y-auto px-5 py-6 sm:px-7"></div>
+      <div id="lessonFeedback" class="hidden"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>

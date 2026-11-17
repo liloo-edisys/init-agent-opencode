@@ -1,0 +1,14 @@
+{
+  "name": "lingoloco",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LingoLoco — a playful, animated language-learning site built with HTML, Tailwind CSS and vanilla JavaScript.",
+  "scripts": {
+    "dev": "npx @tailwindcss/cli -i ./src/input.css -o ./css/styles.css --watch",
+    "build": "npx @tailwindcss/cli -i ./src/input.css -o ./css/styles.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "tailwindcss": "^4.3.5"
+  }
+}
