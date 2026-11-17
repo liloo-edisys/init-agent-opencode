@@ -1,0 +1,9 @@
+## Agent skills
+
+### Issue tracker
+
+Issues and specs live in GitHub Issues for `liloo-edisys/init-agent-opencode` using the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Domain docs
+
+Single-context: `GLOSSARY.md` at the root and `docs/adr/` for decisions. See `docs/agents/domain.md`.
